@@ -20,29 +20,44 @@ class _HomeScreenState extends State<HomeScreen> {
   List<ProbelmInfo> problems = [];
   int page_num = 0;
 
-  _fetchProbelm(int page_num) async {
+  _fetchProbelm() async {
     isLoading = true;
-    // final response = await http
-    //     .get(Uri.http('13.209.70.215:8000', '/quiz/all/${page_num}/0'));
-
-    final tmp = json.encode(
-        "{'pno': 30,'maker': 'mollugorithm','comm': \"안녕하세요\",'comm_time': \"2023-11-15T22:45:30\"}");
-
-    print(tmp);
-
     final response = await http
-        .post(Uri.http('13.209.70.215:8000', '/quiz/make/comm/'), body: tmp);
+        .get(Uri.http('13.209.70.215:8000', '/quiz/all/${page_num}/0'));
+
+//    Comment comm = Comment(30, "user123", "데이터베이스는 재미있어", "2023-11-15T22:45:30");
+
+    // Map map = {
+    //   "pno": 30,
+    //   "maker": "user123",
+    //   "comm": "테스트입니다",
+    //   "comm_time": "2023-11-15T22:45:30",
+    // };
+
+    // final body = json.encode(comm);
+
+    // final response =
+    //     await http.post(Uri.http('13.209.70.215:8000', '/quiz/make/comm/'),
+    //         headers: <String, String>{
+    //           'Content-Type': 'application/json',
+    //         },
+    //         body: body);
 
     if (response.statusCode == 200) {
       problems.clear();
       problems = parseProbs(utf8.decode(response.bodyBytes));
       isLoading = false;
 
-      // for (int i = 0; i < 9; i++) {
-      //   print(problems[i].ptime);
-      // }
-      print(page_num);
+//    print(page_num);
       print("200");
+      if (problems.isEmpty) {
+        page_num -= 1;
+        _fetchProbelm();
+      } else {
+        var controller = PrimaryScrollController.of(context);
+        controller?.jumpTo(0);
+        setState(() {});
+      }
     } else {
       throw Exception('faild to load data');
     }
@@ -51,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchProbelm(page_num);
+    _fetchProbelm();
   }
 
   // 더미데이터
@@ -176,14 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (page_num > 0) {
                           page_num -= 1;
                           problems.clear();
-
-                          setState(() {
-                            _fetchProbelm(page_num)
-                                .then((value) => setState(() {}));
-                          });
-
-                          var controller = PrimaryScrollController.of(context);
-                          controller?.jumpTo(0);
+                          _fetchProbelm();
                         }
                       },
                       child: Row(
@@ -219,14 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {
                         page_num += 1;
                         problems.clear();
-
-                        setState(() {
-                          _fetchProbelm(page_num)
-                              .then((value) => setState(() {}));
-                        });
-
-                        var controller = PrimaryScrollController.of(context);
-                        controller?.jumpTo(0);
+                        _fetchProbelm();
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
