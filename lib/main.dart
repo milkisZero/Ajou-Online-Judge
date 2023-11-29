@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'DB Quiz App',
+      // title: 'DB Quiz App',
       home: HomeScreen(),
     );
   }

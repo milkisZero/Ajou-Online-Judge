@@ -1,10 +1,5 @@
 import 'dart:convert';
-import 'model_quiz.dart';
-
-List<Quiz> parseQuizes(String responseBody) {
-  final persed = json.decode(responseBody).cast<Map<String, dynamic>>();
-  return persed.map<Quiz>((json) => Quiz.fromJson(json)).toList();
-}
+import 'model_probelm.dart';
 
 List<ProbelmInfo> parseProbs(String responseBody) {
   final persed = json.decode(responseBody).cast<Map<String, dynamic>>();
