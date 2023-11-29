@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
       GlobalKey<ScaffoldMessengerState>();
 
   bool isLoading = false;
-  List<ProbelmInfo> problems = [];
+  List<Problem> problems = [];
   int page_num = 0;
   int sort_by = 0;
 
@@ -163,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
           key: _scaffoldKey,
           bottomNavigationBar: BottomNavigationBar(
             elevation: 0,
-            backgroundColor: Colors.grey,
+            backgroundColor: Colors.lightBlue.shade50,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {
                         sort_by = 0;
                         page_num = 0;
-                        selected = "";
+                        selected = null;
                         problems.clear();
                         _fetchProbelm('/quiz/all/${page_num}/${sort_by}');
                       },
@@ -221,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {
                         sort_by = 1;
                         page_num = 0;
-                        selected = "";
+                        selected = null;
                         problems.clear();
                         _fetchProbelm('/quiz/all/${page_num}/${sort_by}');
                       },
@@ -244,7 +244,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         child: DropdownButtonHideUnderline(
                           child: ButtonTheme(
-                            //    alignedDropdown: true,
                             child: DropdownButton(
                               elevation: 8,
                               borderRadius: BorderRadius.circular(20),
@@ -307,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Expanded(
                 child: ListView(
                   children: <Widget>[
-                    for (ProbelmInfo pro in problems)
+                    for (Problem pro in problems)
                       Column(
                         children: [
                           Padding(

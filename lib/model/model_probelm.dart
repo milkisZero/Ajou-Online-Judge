@@ -16,7 +16,7 @@ class Quiz {
         answer = json['answer'];
 }
 
-class ProbelmInfo {
+class Problem {
   String ptime;
   int pno;
   int plike;
@@ -29,7 +29,7 @@ class ProbelmInfo {
   int trycnt;
   int accnt;
 
-  ProbelmInfo(
+  Problem(
       this.ptime,
       this.pno,
       this.plike,
@@ -42,7 +42,7 @@ class ProbelmInfo {
       this.trycnt,
       this.accnt);
 
-  ProbelmInfo.framMap(Map<String, dynamic> map)
+  Problem.framMap(Map<String, dynamic> map)
       : ptime = map['ptime'],
         pno = map['pno'],
         plike = map['plike'],
@@ -55,7 +55,7 @@ class ProbelmInfo {
         trycnt = map['trycnt'],
         accnt = map['accnt'];
 
-  ProbelmInfo.fromJson(Map<String, dynamic> json)
+  Problem.fromJson(Map<String, dynamic> json)
       : ptime = json['ptime'],
         pno = json['pno'],
         plike = json['plike'],

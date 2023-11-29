@@ -6,7 +6,7 @@ import 'package:quiz_app_test/screen/screen_result.dart';
 import 'package:quiz_app_test/widget/widget_candidate.dart';
 
 class SolveScreen extends StatefulWidget {
-  ProbelmInfo prob;
+  Problem prob;
   SolveScreen({required this.prob});
 
   @override
