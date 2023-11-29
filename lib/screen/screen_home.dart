@@ -4,7 +4,6 @@ import 'package:quiz_app_test/model/model_probelm.dart';
 import 'package:quiz_app_test/screen/screen_solve.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:quiz_app_test/widget/widget_home_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -184,55 +183,57 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Padding(padding: EdgeInsets.only(bottom: width * 0.024)),
               SizedBox(
-                height: height * 0.1,
+                height: height * 0.08,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
-                    Padding(padding: EdgeInsets.only(right: width * 0.048)),
+                    Padding(padding: EdgeInsets.only(right: width * 0.024)),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.lightBlue.shade50,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        fixedSize: Size(width * 0.25, width * 0.1),
+                        fixedSize: Size(width * 0.2, width * 0.1),
                       ),
                       onPressed: () {
                         sort_by = 0;
                         page_num = 0;
+                        selected = "";
                         problems.clear();
                         _fetchProbelm('/quiz/all/${page_num}/${sort_by}');
                       },
                       child: Text(
                         "최신순",
                         style: TextStyle(
-                            fontSize: 19,
+                            fontSize: 18,
                             color: Colors.black,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(right: width * 0.048)),
+                    Padding(padding: EdgeInsets.only(right: width * 0.024)),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.lightBlue.shade50,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        fixedSize: Size(width * 0.25, width * 0.1),
+                        fixedSize: Size(width * 0.2, width * 0.1),
                       ),
                       onPressed: () {
                         sort_by = 1;
                         page_num = 0;
+                        selected = "";
                         problems.clear();
                         _fetchProbelm('/quiz/all/${page_num}/${sort_by}');
                       },
                       child: Text(
                         "추천순",
                         style: TextStyle(
-                            fontSize: 19,
+                            fontSize: 18,
                             color: Colors.black,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(right: width * 0.048)),
+                    Padding(padding: EdgeInsets.only(right: width * 0.024)),
                     Material(
                       elevation: 2,
                       borderRadius: BorderRadius.circular(20),
@@ -248,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               elevation: 8,
                               borderRadius: BorderRadius.circular(20),
                               style: TextStyle(
-                                  fontSize: 19,
+                                  fontSize: 18,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
                               dropdownColor: Colors.lightBlue.shade50,
@@ -256,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               hint: Text(
                                 "과목순",
                                 style: TextStyle(
-                                    fontSize: 19,
+                                    fontSize: 18,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -275,11 +276,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                     subjects.indexOf(selected.toString()) + 1;
                                 _fetchProbelm(
                                     "/quiz/subj/${sub_id}/${page_num}/");
-                                ;
                               },
                             ),
                           ),
                         ),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(right: width * 0.012)),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        fixedSize: Size(width * 0.1, width * 0.1),
+                      ),
+                      onPressed: () {},
+                      child: Icon(
+                        Icons.add_circle_outlined,
+                        color: Colors.black,
+                        size: 40,
                       ),
                     ),
                     Padding(padding: EdgeInsets.only(right: width * 0.024)),

@@ -25,10 +25,22 @@ class ProbelmInfo {
   String uname;
   String sname;
   int sid;
-  List<String> problem_explain; //
+  List<String> problem_explain;
+  int trycnt;
+  int accnt;
 
-  ProbelmInfo(this.ptime, this.pno, this.plike, this.pstate, this.upoint,
-      this.uname, this.sname, this.sid, this.problem_explain);
+  ProbelmInfo(
+      this.ptime,
+      this.pno,
+      this.plike,
+      this.pstate,
+      this.upoint,
+      this.uname,
+      this.sname,
+      this.sid,
+      this.problem_explain,
+      this.trycnt,
+      this.accnt);
 
   ProbelmInfo.framMap(Map<String, dynamic> map)
       : ptime = map['ptime'],
@@ -39,7 +51,9 @@ class ProbelmInfo {
         uname = map['uname'],
         sname = map['sname'],
         sid = map['sid'],
-        problem_explain = map['problem_explain'];
+        problem_explain = map['problem_explain'],
+        trycnt = map['trycnt'],
+        accnt = map['accnt'];
 
   ProbelmInfo.fromJson(Map<String, dynamic> json)
       : ptime = json['ptime'],
@@ -50,7 +64,7 @@ class ProbelmInfo {
         uname = json['uname'],
         sname = json['sname'],
         sid = json['sid'],
-        problem_explain = json['problem_explain'].toString().split("?>");
+        problem_explain = json['problem_explain'].toString().split("?>"),
+        trycnt = json['trycnt'],
+        accnt = json['accnt'];
 }
-
-
