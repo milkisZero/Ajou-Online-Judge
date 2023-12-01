@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app_test/model/api_adapter.dart';
 import 'package:quiz_app_test/model/model_probelm.dart';
+import 'package:quiz_app_test/screen/screen_create_problem.dart';
 import 'package:quiz_app_test/screen/screen_solve.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -36,24 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
   _fetchProbelm(String url) async {
     isLoading = true;
     final response = await http.get(Uri.http('13.209.70.215:8000', url));
-
-//    Comment comm = Comment(30, "user123", "데이터베이스는 재미있어", "2023-11-15T22:45:30");
-
-    // Map map = {
-    //   "pno": 30,
-    //   "maker": "user123",
-    //   "comm": "테스트입니다",
-    //   "comm_time": "2023-11-15T22:45:30",
-    // };
-
-    // final body = json.encode(comm);
-
-    // final response =
-    //     await http.post(Uri.http('13.209.70.215:8000', '/quiz/make/comm/'),
-    //         headers: <String, String>{
-    //           'Content-Type': 'application/json',
-    //         },
-    //         body: body);
 
     if (response.statusCode == 200) {
       problems.clear();
@@ -161,24 +144,24 @@ class _HomeScreenState extends State<HomeScreen> {
       child: SafeArea(
         child: Scaffold(
           key: _scaffoldKey,
-          bottomNavigationBar: BottomNavigationBar(
-            elevation: 0,
-            backgroundColor: Colors.lightBlue.shade50,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'HOME',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.people),
-                label: 'MYPAGE',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: 'SETTING',
-              ),
-            ],
-          ),
+          // bottomNavigationBar: BottomNavigationBar(
+          //   elevation: 0,
+          //   backgroundColor: Colors.lightBlue.shade50,
+          //   items: const <BottomNavigationBarItem>[
+          //     BottomNavigationBarItem(
+          //       icon: Icon(Icons.home),
+          //       label: 'HOME',
+          //     ),
+          //     BottomNavigationBarItem(
+          //       icon: Icon(Icons.people),
+          //       label: 'MYPAGE',
+          //     ),
+          //     BottomNavigationBarItem(
+          //       icon: Icon(Icons.settings),
+          //       label: 'SETTING',
+          //     ),
+          //   ],
+          // ),
           body: Column(
             children: [
               Padding(padding: EdgeInsets.only(bottom: width * 0.024)),
@@ -190,7 +173,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(padding: EdgeInsets.only(right: width * 0.024)),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.lightBlue.shade50,
+                        elevation: 0,
+                        side: BorderSide(color: Colors.black, width: 2),
+                        backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         fixedSize: Size(width * 0.2, width * 0.1),
@@ -213,7 +198,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(padding: EdgeInsets.only(right: width * 0.024)),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.lightBlue.shade50,
+                        elevation: 0,
+                        side: BorderSide(color: Colors.black, width: 2),
+                        backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         fixedSize: Size(width * 0.2, width * 0.1),
@@ -235,11 +222,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Padding(padding: EdgeInsets.only(right: width * 0.024)),
                     Material(
-                      elevation: 2,
+                      elevation: 0,
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
+                        padding: EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                          color: Colors.lightBlue.shade50,
+                          border: Border.all(color: Colors.black, width: 2),
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: DropdownButtonHideUnderline(
@@ -251,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontSize: 18,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
-                              dropdownColor: Colors.lightBlue.shade50,
+                              dropdownColor: Colors.white,
                               alignment: AlignmentDirectional.center,
                               hint: Text(
                                 "과목순",
@@ -291,7 +280,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         fixedSize: Size(width * 0.1, width * 0.1),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateProblemPage()));
+                      },
                       child: Icon(
                         Icons.add_circle_outlined,
                         color: Colors.black,
@@ -315,69 +309,82 @@ class _HomeScreenState extends State<HomeScreen> {
                               context: context, width: width, prob: pro),
                         ],
                       ),
-                    Padding(padding: EdgeInsets.only(bottom: width * 0.024)),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Flexible(
+                        Container(
+                          width: width * 0.3,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              fixedSize: Size(width * 0.5, width * 0.12),
+                              elevation: 0,
+                              side: BorderSide(color: Colors.black, width: 2),
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              fixedSize: Size(width * 0.2, width * 0.1),
                             ),
                             onPressed: () {
                               if (page_num > 0) {
                                 page_num -= 1;
                                 problems.clear();
-                                _fetchProbelm(
-                                    '/quiz/all/${page_num}/${sort_by}');
+                                selected == null
+                                    ? _fetchProbelm(
+                                        '/quiz/all/${page_num}/${sort_by}')
+                                    : _fetchProbelm(
+                                        "/quiz/subj/${subjects.indexOf(selected.toString()) + 1}/${page_num}/");
                               }
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'BEFORE',
+                                  'PREV',
                                   style: TextStyle(
-                                      fontSize: 25,
+                                      color: Colors.black,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Icon(
-                                  Icons.navigate_before,
-                                  size: width * 0.1,
-                                )
                               ],
                             ),
                           ),
                         ),
                         Container(
-                          width: width * 0.1,
+                          width: width * 0.2,
                           child: Center(
                               child: Text(
                             (page_num + 1).toString(),
                             style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
+                                fontSize: 24, fontWeight: FontWeight.bold),
                           )),
                         ),
-                        Flexible(
+                        Container(
+                          width: width * 0.3,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              fixedSize: Size(width * 0.5, width * 0.12),
+                              elevation: 0,
+                              side: BorderSide(color: Colors.black, width: 2),
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              fixedSize: Size(width * 0.2, width * 0.1),
                             ),
                             onPressed: () {
                               page_num += 1;
                               problems.clear();
-                              _fetchProbelm('/quiz/all/${page_num}/${sort_by}');
+                              selected == null
+                                  ? _fetchProbelm(
+                                      '/quiz/all/${page_num}/${sort_by}')
+                                  : _fetchProbelm(
+                                      "/quiz/subj/${subjects.indexOf(selected.toString()) + 1}/${page_num}/");
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
-                                  Icons.navigate_next,
-                                  size: width * 0.1,
-                                ),
                                 Text(
                                   'NEXT',
                                   style: TextStyle(
-                                      fontSize: 25,
+                                      color: Colors.black,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -386,48 +393,48 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       ],
                     ),
-                    Container(
-                        //   child: Center(
-                        //     child: ButtonTheme(
-                        //       minWidth: screenWidth * 0.8,
-                        //       height: screenHight * 0.05,
-                        //       shape: RoundedRectangleBorder(
-                        //         borderRadius: BorderRadius.circular(10),
-                        //       ),
-                        //       child: ElevatedButton(
-                        //           onPressed: () {
-                        //             _scaffoldKey.currentState?.showSnackBar(
-                        //               SnackBar(
-                        //                 content: Row(
-                        //                   children: <Widget>[
-                        //                     CircularProgressIndicator(),
-                        //                     Padding(
-                        //                       padding: EdgeInsets.only(
-                        //                           left: screenWidth * 0.036),
-                        //                     ),
-                        //                     Text('로딩 중...'),
-                        //                   ],
-                        //                 ),
-                        //               ),
-                        //             );
+                    // Container(
+                    //   child: Center(
+                    //     child: ButtonTheme(
+                    //       minWidth: screenWidth * 0.8,
+                    //       height: screenHight * 0.05,
+                    //       shape: RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.circular(10),
+                    //       ),
+                    //       child: ElevatedButton(
+                    //           onPressed: () {
+                    //             _scaffoldKey.currentState?.showSnackBar(
+                    //               SnackBar(
+                    //                 content: Row(
+                    //                   children: <Widget>[
+                    //                     CircularProgressIndicator(),
+                    //                     Padding(
+                    //                       padding: EdgeInsets.only(
+                    //                           left: screenWidth * 0.036),
+                    //                     ),
+                    //                     Text('로딩 중...'),
+                    //                   ],
+                    //                 ),
+                    //               ),
+                    //             );
 
-                        // _fetchQuizs().whenComplete(() {
-                        //   return Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) =>
-                        //               QuizScreen(quizs: quizs)));
-                        // });
-                        //           },
-                        //           child: Text(
-                        //             '지금 퀴즈풀기',
-                        //             style: TextStyle(color: Colors.white),
-                        //           ),
-                        //           style: ElevatedButton.styleFrom(
-                        //               backgroundColor: Colors.deepPurple)),
-                        //     ),
-                        //   ),
-                        ),
+                    // _fetchQuizs().whenComplete(() {
+                    //   return Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) =>
+                    //               QuizScreen(quizs: quizs)));
+                    // });
+                    //           },
+                    //           child: Text(
+                    //             '지금 퀴즈풀기',
+                    //             style: TextStyle(color: Colors.white),
+                    //           ),
+                    //           style: ElevatedButton.styleFrom(
+                    //               backgroundColor: Colors.deepPurple)),
+                    //     ),
+                    //   ),
+                    //    ),
                   ],
                 ),
               ),

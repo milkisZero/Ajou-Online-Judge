@@ -76,12 +76,12 @@ class build_home_list extends StatelessWidget {
                                 color: Colors.amber,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              width: width * 0.25,
+                              width: width * 0.2,
                               child: Text(
                                 "토론 중",
                                 style: TextStyle(
                                     color: Colors.red,
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
                               ),

@@ -11,13 +11,8 @@ class SignupFormData {
 
   SignupFormData({this.id, this.pwd, this.upoint, this.uname, this.email});
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "pwd": pwd,
-        "upoint": 10000,
-        "uname": uname,
-        "email": email
-      };
+  Map<String, dynamic> toJson() =>
+      {"id": id, "pwd": pwd, "upoint": 10000, "uname": uname, "email": email};
 }
 
 class SignupForm extends StatefulWidget {
@@ -36,11 +31,15 @@ class _SignupForm extends State<SignupForm> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double width = screenSize.width;
+    double height = screenSize.height;
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text('회원가입'),
-        ),
-        body: Container(
+        body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
           margin: EdgeInsets.all(30),
           padding: EdgeInsets.all(10),
           child: Form(
@@ -88,8 +87,20 @@ class _SignupForm extends State<SignupForm> {
                     formData.email = value;
                   },
                 ),
-                TextButton(
-                  child: const Text('Signup'),
+                Padding(padding: EdgeInsets.only(bottom: width * 0.024)),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    side: BorderSide(color: Colors.black, width: 2),
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    fixedSize: Size(width * 0.2, width * 0.1),
+                  ),
+                  child: const Text(
+                    'SignUp',
+                    style: TextStyle(color: Colors.black),
+                  ),
                   onPressed: () {
                     addTaskToServer();
                   },
@@ -97,7 +108,9 @@ class _SignupForm extends State<SignupForm> {
               ],
             ),
           ),
-        ));
+        ),
+      ],
+    ));
   }
 
   void _showDialog(String message) {

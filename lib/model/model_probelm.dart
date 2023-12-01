@@ -23,6 +23,7 @@ class Problem {
   int pstate;
   int upoint;
   String uname;
+  String uid;
   String sname;
   int sid;
   List<String> problem_explain;
@@ -36,6 +37,7 @@ class Problem {
       this.pstate,
       this.upoint,
       this.uname,
+      this.uid,
       this.sname,
       this.sid,
       this.problem_explain,
@@ -49,6 +51,7 @@ class Problem {
         pstate = map['pstate'],
         upoint = map['upoint'],
         uname = map['uname'],
+        uid = map['maker_id'],
         sname = map['sname'],
         sid = map['sid'],
         problem_explain = map['problem_explain'],
@@ -62,6 +65,7 @@ class Problem {
         pstate = json['pstate'],
         upoint = json['upoint'],
         uname = json['uname'],
+        uid = json['maker_id'],
         sname = json['sname'],
         sid = json['sid'],
         problem_explain = json['problem_explain'].toString().split("?>"),
