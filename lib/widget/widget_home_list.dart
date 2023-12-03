@@ -40,9 +40,9 @@ class build_home_list extends StatelessWidget {
               child: Column(
                 children: [
                   Icon(
-                    Icons.person,
+                    Icons.tag_faces_outlined,
                     size: width * 0.2,
-                    color: Colors.amber,
+                    color: userIcon(prob.upoint),
                   ),
                   Text(
                     prob.uname,
@@ -119,5 +119,13 @@ class build_home_list extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  userIcon(int upoint) {
+    if (prob.upoint < 100) {
+      return Colors.amber;
+    } else {
+      return Colors.red;
+    }
   }
 }

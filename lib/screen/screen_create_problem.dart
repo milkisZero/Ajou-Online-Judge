@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:quiz_app_test/model/model_loginUser.dart';
 
-String? selected;
+String? selected_sub;
 int? sub_id;
 final subjects = [
   "Algorithm",
@@ -96,188 +96,200 @@ class _CreateProblemPageState extends State<CreateProblemPage> {
       setState(() {
         numberOfChoices = 4; // 초기값: 4
         selectedChoice = -1;
-        selected = null;
+        selected_sub = null;
       });
     }
 
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-        child: SingleChildScrollView(
-          child: Container(
-            height: height,
-            child: Column(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(padding: EdgeInsets.all(width * 0.024)),
-                    Text(
-                      'Create Problem',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.all(width * 0.024)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            side: BorderSide(color: Colors.black, width: 2),
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15)),
-                            fixedSize: Size(width * 0.3, height * 0.091),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              // Toggle between 4 and 2 choices
-                              numberOfChoices = (numberOfChoices == 4) ? 2 : 4;
-                              choiceControllers = List.generate(
-                                numberOfChoices,
-                                (index) => TextEditingController(),
-                              );
-                            });
-                          },
-                          child: Text(
-                            '${numberOfChoices}지선다',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
+    return WillPopScope(
+      onWillPop: () async {
+        setState(() {
+          numberOfChoices = 4; // 초기값: 4
+          selectedChoice = -1;
+          selected_sub = null;
+        });
+        return true;
+      },
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+          child: SingleChildScrollView(
+            child: Container(
+              height: height,
+              child: Column(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(padding: EdgeInsets.all(width * 0.024)),
+                      Text(
+                        'Create Problem',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Material(
-                          elevation: 0,
-                          borderRadius: BorderRadius.circular(15),
-                          child: Container(
-                            padding: EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black, width: 2),
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
+                      ),
+                      Padding(padding: EdgeInsets.all(width * 0.024)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              side: BorderSide(color: Colors.black, width: 2),
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                              fixedSize: Size(width * 0.3, height * 0.091),
                             ),
-                            child: DropdownButtonHideUnderline(
-                              child: ButtonTheme(
-                                child: DropdownButton(
-                                  elevation: 8,
-                                  borderRadius: BorderRadius.circular(20),
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                  dropdownColor: Colors.white,
-                                  alignment: AlignmentDirectional.center,
-                                  hint: Text(
-                                    "과목순",
+                            onPressed: () {
+                              setState(() {
+                                // Toggle between 4 and 2 choices
+                                numberOfChoices =
+                                    (numberOfChoices == 4) ? 2 : 4;
+                                choiceControllers = List.generate(
+                                  numberOfChoices,
+                                  (index) => TextEditingController(),
+                                );
+                              });
+                            },
+                            child: Text(
+                              '${numberOfChoices}지선다',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Material(
+                            elevation: 0,
+                            borderRadius: BorderRadius.circular(15),
+                            child: Container(
+                              padding: EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.black, width: 2),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: ButtonTheme(
+                                  child: DropdownButton(
+                                    elevation: 8,
+                                    borderRadius: BorderRadius.circular(20),
                                     style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
+                                    dropdownColor: Colors.white,
+                                    alignment: AlignmentDirectional.center,
+                                    hint: Text(
+                                      "과목순",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    value: selected_sub,
+                                    items: subjects
+                                        .map((e) => DropdownMenuItem(
+                                              value: e,
+                                              child: Text(e),
+                                            ))
+                                        .toList(),
+                                    onChanged: (value) {
+                                      selected_sub = value;
+                                      sub_id = subjects.indexOf(
+                                              selected_sub.toString()) +
+                                          1;
+                                      setState(() {});
+                                    },
                                   ),
-                                  value: selected,
-                                  items: subjects
-                                      .map((e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Text(e),
-                                          ))
-                                      .toList(),
-                                  onChanged: (value) {
-                                    selected = value;
-                                    sub_id =
-                                        subjects.indexOf(selected.toString()) +
-                                            1;
-                                    setState(() {});
-                                  },
                                 ),
                               ),
                             ),
                           ),
+                        ],
+                      ),
+                      Padding(padding: EdgeInsets.all(width * 0.024)),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: titleController,
+                    decoration: InputDecoration(
+                      labelText: 'Problem Context',
+                    ),
+                    maxLines: null,
+                  ),
+                  SizedBox(height: 40),
+                  Text(
+                    'Check the Answer',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                  ...List.generate(
+                    numberOfChoices,
+                    (index) => Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedChoice =
+                                  selectedChoice == index ? -1 : index;
+                            });
+                          },
+                          child: Container(
+                            width: 24.0,
+                            height: 24.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: selectedChoice == index
+                                    ? Colors.blue
+                                    : Colors.grey,
+                                width: 2.0,
+                              ),
+                            ),
+                            child: Center(
+                              child: selectedChoice == index
+                                  ? Icon(Icons.check, color: Colors.blue)
+                                  : SizedBox.shrink(),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 8.0),
+                        Expanded(
+                          child: TextField(
+                            controller: choiceControllers[index],
+                            decoration: InputDecoration(
+                              labelText: 'Choice ${index + 1}',
+                            ),
+                            maxLines: null,
+                          ),
                         ),
                       ],
                     ),
-                    Padding(padding: EdgeInsets.all(width * 0.024)),
-                  ],
-                ),
-                SizedBox(height: 16),
-                TextField(
-                  controller: titleController,
-                  decoration: InputDecoration(
-                    labelText: 'Problem Context',
                   ),
-                  maxLines: null,
-                ),
-                SizedBox(height: 40),
-                Text(
-                  'Check the Answer',
-                  style: TextStyle(
-                    fontSize: 18,
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: answerExplainController,
+                    decoration: InputDecoration(
+                      labelText: 'Write down the explanation of the answer',
+                    ),
+                    maxLines: null,
                   ),
-                ),
-                ...List.generate(
-                  numberOfChoices,
-                  (index) => Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            selectedChoice =
-                                selectedChoice == index ? -1 : index;
-                          });
-                        },
-                        child: Container(
-                          width: 24.0,
-                          height: 24.0,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: selectedChoice == index
-                                  ? Colors.blue
-                                  : Colors.grey,
-                              width: 2.0,
-                            ),
-                          ),
-                          child: Center(
-                            child: selectedChoice == index
-                                ? Icon(Icons.check, color: Colors.blue)
-                                : SizedBox.shrink(),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 8.0),
-                      Expanded(
-                        child: TextField(
-                          controller: choiceControllers[index],
-                          decoration: InputDecoration(
-                            labelText: 'Choice ${index + 1}',
-                          ),
-                          maxLines: null,
-                        ),
-                      ),
-                    ],
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: selectedChoice != -1
+                        ? () {
+                            addProblemToServer();
+                          }
+                        : null,
+                    child: Text('Create'),
                   ),
-                ),
-                SizedBox(height: 16),
-                TextField(
-                  controller: answerExplainController,
-                  decoration: InputDecoration(
-                    labelText: 'Write down the explanation of the answer',
-                  ),
-                  maxLines: null,
-                ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: selectedChoice != -1
-                      ? () {
-                          addProblemToServer();
-                        }
-                      : null,
-                  child: Text('Create'),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -345,7 +357,7 @@ class _CreateProblemPageState extends State<CreateProblemPage> {
     setState(() {
       numberOfChoices = 4; // 초기값: 4
       selectedChoice = -1;
-      selected = null;
+      selected_sub = null;
     });
   }
 }

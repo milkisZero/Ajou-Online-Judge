@@ -50,7 +50,6 @@ class _DebateScreenState extends State<DebateScreen> {
       comments.clear();
       comments = parseComm(utf8.decode(response.bodyBytes));
 
-      print(comments[0].comm);
       setState(() {});
     } else {
       throw Exception('faild to load data');
