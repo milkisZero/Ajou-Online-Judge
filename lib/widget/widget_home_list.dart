@@ -22,11 +22,12 @@ class build_home_list extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => DebateScreen(prob: prob)));
+            MaterialPageRoute(builder: (context) => SolveScreen(prob: prob)));
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor:
-            prob.pstate == 1 ? Colors.red.shade100 : Colors.transparent,
+        shape: BeveledRectangleBorder(),
+        side: BorderSide(color: Colors.black, width: 0.5),
+        backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       child: Container(
@@ -36,17 +37,18 @@ class build_home_list extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              width: width * 0.2,
+              width: width * 0.15,
               child: Column(
                 children: [
-                  Icon(
-                    Icons.tag_faces_outlined,
-                    size: width * 0.2,
-                    color: userIcon(prob.upoint),
-                  ),
-                  Text(
-                    prob.uname,
-                    style: TextStyle(color: Colors.black),
+                  Container(
+                      padding: EdgeInsets.all(width * 0.012),
+                      child: userIcon(prob.upoint)),
+                  Container(
+                    padding: EdgeInsets.all(width * 0.012),
+                    child: Text(
+                      prob.uname,
+                      style: TextStyle(color: Colors.black),
+                    ),
                   ),
                 ],
               ),
@@ -121,11 +123,27 @@ class build_home_list extends StatelessWidget {
     );
   }
 
-  userIcon(int upoint) {
+  Image userIcon(int upoint) {
     if (prob.upoint < 100) {
-      return Colors.amber;
+      return Image.asset(
+        'assets/images/start.png',
+        scale: 4,
+      );
+    } else if (prob.upoint < 200) {
+      return Image.asset(
+        'assets/images/cat.png',
+        scale: 4,
+      );
+    } else if (prob.upoint < 300) {
+      return Image.asset(
+        'assets/images/cat3.png',
+        scale: 4,
+      );
     } else {
-      return Colors.red;
+      return Image.asset(
+        'assets/images/cat2.png',
+        scale: 4,
+      );
     }
   }
 }

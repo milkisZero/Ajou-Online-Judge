@@ -2,8 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:quiz_app_test/model/model_probelm.dart';
-import 'package:quiz_app_test/screen/screen_result.dart';
+import 'package:quiz_app_test/screen/screen_problem_result.dart';
 import 'package:quiz_app_test/widget/widget_candidate.dart';
+import 'package:intl/intl.dart';
 
 class SolveScreen extends StatefulWidget {
   Problem prob;
@@ -14,149 +15,139 @@ class SolveScreen extends StatefulWidget {
 }
 
 class _SolveScreenState extends State<SolveScreen> {
-  List<int> _answers = [-1, -1, -1];
   List<bool> _answerState = [false, false, false, false];
   int _currentIndex = 0;
-  SwiperController _controller = SwiperController();
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    double screenWidth = screenSize.width;
-    double screenHight = screenSize.height;
+    double width = screenSize.width;
+    double height = screenSize.height;
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.deepPurple,
-        body: Center(
-            child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.deepPurple),
-          ),
-          width: screenWidth * 0.85,
-          height: screenHight * 0.7,
-          // child: Swiper(
-          //     controller: _controller,
-          //     physics: NeverScrollableScrollPhysics(),
-          //     loop: false,
-          //     itemCount: widget.quizs.length,
-          //     itemBuilder: (BuildContext context, int index) => _buildQuizCard(
-          //         widget.quizs[index], screenWidth, screenHight)),
-        )),
-      ),
-    );
-  }
-
-  Widget _buildQuizCard(Quiz quiz, double width, double height) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white),
-        color: Colors.white,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.fromLTRB(0, width * 0.024, 0, width * 0.024),
-            child: Text(
-              'Q' + (_currentIndex + 1).toString() + '.',
-              style: TextStyle(
-                fontSize: width * 0.06,
-                fontWeight: FontWeight.bold,
+        body: Column(
+          children: [
+            Container(
+              constraints: BoxConstraints(maxHeight: height * 0.4),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black, width: 2),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              margin: EdgeInsets.all(width * 0.06),
+              child: ListView(
+                children: [
+                  Container(
+                    padding: EdgeInsets.fromLTRB(
+                        width * 0.024, width * 0.024, width * 0.024, 0),
+                    child: Text(
+                      widget.prob.sname,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(
+                        width * 0.024, width * 0.024, width * 0.024, 0),
+                    child: Text(
+                      '정답률 : ' +
+                          ((widget.prob.accnt / widget.prob.trycnt) * 100)
+                              .toStringAsFixed(2) +
+                          '%',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(
+                        width * 0.024, width * 0.024, width * 0.024, 0),
+                    child: Text(
+                      'made by [ ' +
+                          widget.prob.uname +
+                          ' ]\non ' +
+                          DateFormat('yyyy/MM/dd HH:mm:ss')
+                              .format(DateTime.parse(widget.prob.ptime)),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(
+                        width * 0.024, width * 0.024, width * 0.024, 0),
+                    child: Text(
+                      'Q. ' + widget.prob.problem_explain[0],
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          Container(
-            width: width * 0.8,
-            padding: EdgeInsets.only(top: width * 0.012),
-            child: AutoSizeText(
-              quiz.title,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              style: TextStyle(
-                fontSize: width * 0.048,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          // 이후 배치되는 칠드런이 아래에서부터 배치된다
-          Expanded(
-            child: Container(),
-          ),
-          Column(
-            children: _buildCandidates(width, quiz),
-          ),
-          Container(
-            padding: EdgeInsets.all(width * 0.024),
-            child: Center(
-              child: ElevatedButton(
-                child: _currentIndex == widget.prob.pno - 1
-                    ? Text('결과보기')
-                    : Text('다음문제'),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(width * 0.5, height * 0.06),
-                  backgroundColor: Colors.deepPurple,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-                onPressed: _answers[_currentIndex] == -1
-                    ? null
-                    : () {
-                        // if (_currentIndex == widget.quizs.length - 1) {
-                        //   Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) => ResultScreen(
-                        //               answers: _answers, quizs: widget.quizs)));
-                        // } else {
-                        //   _answerState = [false, false, false, false];
-                        //   _currentIndex += 1;
-                        //   _controller.next();
-                        // }
+            Container(
+              constraints: BoxConstraints(maxHeight: height * 0.4),
+              margin: EdgeInsets.fromLTRB(width * 0.06, 0, width * 0.06, 0),
+              child: ListView(
+                children: [
+                  for (int i = 1; i < widget.prob.problem_explain.length; i++)
+                    CandWidget(
+                      index: i,
+                      text: widget.prob.problem_explain[i],
+                      width: width,
+                      selected_state: _answerState[i - 1],
+                      tap: () {
+                        setState(() {
+                          for (int j = 0; j < 4; j++) {
+                            if (j == i - 1) {
+                              _answerState[j] = true;
+                              _currentIndex = i;
+                            } else {
+                              _answerState[j] = false;
+                            }
+                          }
+                        });
                       },
+                    ),
+                ],
               ),
             ),
-          )
-        ],
+            ElevatedButton(
+              child: Text(
+                "정답 제출",
+                style: TextStyle(
+                  fontSize: width * 0.05,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {
+                if (_currentIndex != 0) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ResultProblemPage(
+                              prob: widget.prob, selected_ans: _currentIndex)));
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                side: BorderSide(color: Colors.black, width: 2),
+                backgroundColor:
+                    _currentIndex == 0 ? Colors.grey : Colors.deepPurple,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                fixedSize: Size(width * 0.4, height * 0.05),
+              ),
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  List<Widget> _buildCandidates(double width, Quiz quiz) {
-    List<Widget> _children = [];
-
-    for (int i = 0; i < 4; i++) {
-      _children.add(
-        CandWidget(
-          index: i,
-          text: quiz.candidates[i],
-          width: width,
-          answerState: _answerState[i],
-          tap: () {
-            setState(() {
-              for (int j = 0; j < 4; j++) {
-                if (j == i) {
-                  _answerState[j] = true;
-                  _answers[_currentIndex] = j;
-//                  print(j);
-                } else {
-                  _answerState[j] = false;
-                }
-              }
-            });
-          },
-        ),
-      );
-      _children.add(
-        Padding(
-          padding: EdgeInsets.all(width * 0.024),
-        ),
-      );
-    }
-
-    return _children;
   }
 }

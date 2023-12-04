@@ -37,15 +37,56 @@ class _SigninForm extends State<SigninForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/images/book.png',
-              scale: 4.5,
-              color: Colors.amber,
+            Container(
+              padding: EdgeInsets.all(10),
+              child: Image.asset(
+                'assets/images/book.png',
+                scale: 4,
+                color: Colors.amber,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "A",
+                  style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.lightBlueAccent),
+                ),
+                Text(
+                  "jou ",
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "O",
+                  style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.lightBlueAccent),
+                ),
+                Text(
+                  "nline ",
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "J",
+                  style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.lightBlueAccent),
+                ),
+                Text(
+                  "udge",
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
             Center(
               child: Text(
-                "다풀다",
-                style: TextStyle(fontSize: 80, fontWeight: FontWeight.bold),
+                "아오지",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
             ),
             Container(
@@ -119,17 +160,6 @@ class _SigninForm extends State<SigninForm> {
                           },
                         ),
                       ],
-                    ),
-                    ElevatedButton(
-                      child: const Text('바로가기'),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeScreen(),
-                          ),
-                        );
-                      },
                     ),
                   ],
                 ),

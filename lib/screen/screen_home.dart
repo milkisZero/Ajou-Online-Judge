@@ -46,7 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
       print("200");
       if (problems.isEmpty) {
         page_num -= 1;
-        _fetchProbelm('/quiz/all/${page_num}/${sort_by}');
+        if (selected != null)
+          _fetchProbelm("/quiz/subj/${sub_id}/${page_num}/");
+        else
+          _fetchProbelm('/quiz/all/${page_num}/${sort_by}');
       } else {
         var controller = PrimaryScrollController.of(context);
         controller?.jumpTo(0);
@@ -303,8 +306,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     for (Problem pro in problems)
                       Column(
                         children: [
-                          Padding(
-                              padding: EdgeInsets.only(bottom: width * 0.024)),
+                          // Padding(
+                          //     padding: EdgeInsets.only(bottom: width * 0.024)),
                           build_home_list(
                               context: context, width: width, prob: pro),
                         ],
@@ -393,48 +396,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       ],
                     ),
-                    // Container(
-                    //   child: Center(
-                    //     child: ButtonTheme(
-                    //       minWidth: screenWidth * 0.8,
-                    //       height: screenHight * 0.05,
-                    //       shape: RoundedRectangleBorder(
-                    //         borderRadius: BorderRadius.circular(10),
-                    //       ),
-                    //       child: ElevatedButton(
-                    //           onPressed: () {
-                    //             _scaffoldKey.currentState?.showSnackBar(
-                    //               SnackBar(
-                    //                 content: Row(
-                    //                   children: <Widget>[
-                    //                     CircularProgressIndicator(),
-                    //                     Padding(
-                    //                       padding: EdgeInsets.only(
-                    //                           left: screenWidth * 0.036),
-                    //                     ),
-                    //                     Text('로딩 중...'),
-                    //                   ],
-                    //                 ),
-                    //               ),
-                    //             );
-
-                    // _fetchQuizs().whenComplete(() {
-                    //   return Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: (context) =>
-                    //               QuizScreen(quizs: quizs)));
-                    // });
-                    //           },
-                    //           child: Text(
-                    //             '지금 퀴즈풀기',
-                    //             style: TextStyle(color: Colors.white),
-                    //           ),
-                    //           style: ElevatedButton.styleFrom(
-                    //               backgroundColor: Colors.deepPurple)),
-                    //     ),
-                    //   ),
-                    //    ),
                   ],
                 ),
               ),

@@ -7,7 +7,6 @@ import 'package:quiz_app_test/model/model_comment.dart';
 import 'package:quiz_app_test/model/model_loginUser.dart';
 import 'package:quiz_app_test/model/model_probelm.dart';
 import 'package:quiz_app_test/screen/screen_debate.dart';
-import 'package:quiz_app_test/screen/screen_result.dart';
 import 'package:quiz_app_test/widget/widget_candidate.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
