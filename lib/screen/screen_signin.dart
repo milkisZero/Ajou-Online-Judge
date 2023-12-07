@@ -1,5 +1,5 @@
 import 'package:provider/provider.dart';
-import 'package:quiz_app_test/model/api_adapter.dart';
+import 'package:quiz_app_test/api_adapter.dart';
 import 'package:quiz_app_test/model/model_loginUser.dart';
 import 'package:quiz_app_test/screen/screen_home.dart';
 import 'package:quiz_app_test/screen/screen_signup.dart';
@@ -177,9 +177,14 @@ class _SigninForm extends State<SigninForm> {
       builder: (context) => AlertDialog(
         title: Text(message),
         actions: [
-          TextButton(
-            child: const Text('OK'),
-            onPressed: () => Navigator.of(context).pop(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
           ),
         ],
       ),

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:quiz_app_test/model/api_adapter.dart';
+import 'package:quiz_app_test/api_adapter.dart';
 import 'dart:convert';
 import 'package:quiz_app_test/model/model_probelm.dart';
 import 'package:quiz_app_test/model/model_answer.dart';
 import 'package:quiz_app_test/screen/screen_create_problem.dart';
 import 'package:quiz_app_test/screen/screen_debate.dart';
 import 'package:quiz_app_test/screen/screen_home.dart';
+import 'package:provider/provider.dart';
+import 'package:quiz_app_test/model/model_loginUser.dart';
 
 class ResultProblemPage extends StatefulWidget {
   Problem prob;
@@ -30,21 +32,27 @@ class _ResultProblemPageState extends State<ResultProblemPage> {
 
     if (response.statusCode == 200) {
       cur_ans = parseAns(utf8.decode(response.bodyBytes));
+
+      int check = 0;
+      if (widget.selected_ans.toString() == cur_ans[0].ans_num)
+        check = 1;
+      else
+        check = 0;
+
       if (widget.prob.pstate == 0) {
-        _updateCnt();
+        _updateCnt(check);
+
+        if (check == 1) {
+          _update(
+              '/quiz/update/point/${Provider.of<loginUser>(context, listen: false).id}/1/');
+        }
       }
     } else {
       throw Exception('faild to load data');
     }
   }
 
-  _updateCnt() async {
-    int check = 0;
-    if (widget.selected_ans.toString() == cur_ans[0].ans_num)
-      check = 1;
-    else
-      check = 0;
-
+  _updateCnt(int check) async {
     final response = await http.get(
       Uri.http('13.209.70.215:8000',
           '/quiz/update/cnt/${widget.prob.pno}/${check.toString()}/'),
@@ -52,7 +60,7 @@ class _ResultProblemPageState extends State<ResultProblemPage> {
 
     if (response.statusCode == 200) {
     } else {
-      throw Exception('faild to post data');
+      throw Exception('faild to _updateCnt');
     }
   }
 
@@ -63,7 +71,7 @@ class _ResultProblemPageState extends State<ResultProblemPage> {
 
     if (response.statusCode == 200) {
     } else {
-      throw Exception('faild to post data');
+      throw Exception('faild to _update');
     }
   }
 
@@ -194,7 +202,7 @@ class _ResultProblemPageState extends State<ResultProblemPage> {
                               if (isButtonActive == false &&
                                   widget.prob.pstate == 0) {
                                 _update(
-                                    '/quiz/update/like/${widget.prob.pno}/');
+                                    '/quiz/update/like/${widget.prob.pno}/${widget.prob.uid}/');
                                 setState(() {
                                   isButtonActive = true;
                                 });

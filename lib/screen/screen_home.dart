@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app_test/model/api_adapter.dart';
+import 'package:quiz_app_test/api_adapter.dart';
 import 'package:quiz_app_test/model/model_probelm.dart';
 import 'package:quiz_app_test/screen/screen_create_problem.dart';
 import 'package:quiz_app_test/screen/screen_solve.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:quiz_app_test/widget/widget_home_list.dart';
+import 'package:quiz_app_test/widget/widget_usericon.dart';
+import 'package:provider/provider.dart';
+import 'package:quiz_app_test/model/model_loginUser.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -66,105 +69,19 @@ class _HomeScreenState extends State<HomeScreen> {
     _fetchProbelm('/quiz/all/${page_num}/${sort_by}');
   }
 
-  // 더미데이터
-  // List<ProbelmInfo> problems = [
-  //   ProbelmInfo.framMap({
-  //     'ptime': DateTime.parse('2022-11-22 15:45:45'),
-  //     'pno': 1,
-  //     'plike': 123,
-  //     'pstate': 0,
-  //     'upoint': 1122,
-  //     'uname': '킹sdfsfsdfsdfsdfsdfs',
-  //     'sname': '알고flwmadfsdfsfsf',
-  //     'problem_explain':
-  //         'ㄴㅇㄹㄴㄹㄴㄹㄴㅇㄹㄴㄴㅇㄹ\nfdfdfdfsfsdfsfsdfsfsfsfssfsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfsdf',
-  //   }),
-  //   ProbelmInfo.framMap({
-  //     'ptime': DateTime.parse('2022-11-22 15:45:45'),
-  //     'pno': 1,
-  //     'plike': 123,
-  //     'pstate': 0,
-  //     'upoint': 1122,
-  //     'uname': '킹',
-  //     'sname': '알고',
-  //     'problem_explain':
-  //         'ㄴㅇㄹㄴㄹㄴㄹㄴㅇㄹㄴㄴㅇㄹ\nfdfdfdfsfsdfsfsdfsfsfsfssfsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfsdf',
-  //   }),
-  //   ProbelmInfo.framMap({
-  //     'ptime': DateTime.parse('2022-11-22 15:45:45'),
-  //     'pno': 1,
-  //     'plike': 123,
-  //     'pstate': 0,
-  //     'upoint': 1122,
-  //     'uname': '킹',
-  //     'sname': '알고',
-  //     'problem_explain':
-  //         'ㄴㅇㄹㄴㄹㄴㄹㄴㅇㄹㄴㄴㅇㄹ\nfdfdfdfsfsdfsfsdfsfsfsfssfsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfsdf',
-  //   }),
-  //   ProbelmInfo.framMap({
-  //     'ptime': DateTime.parse('2022-11-22 15:45:45'),
-  //     'pno': 1,
-  //     'plike': 123,
-  //     'pstate': 0,
-  //     'upoint': 1122,
-  //     'uname': '킹',
-  //     'sname': '알고',
-  //     'problem_explain':
-  //         'ㄴㅇㄹㄴㄹㄴㄹㄴㅇㄹㄴㄴㅇㄹ\nfdfdfdfsfsdfsfsdfsfsfsfssfsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfsdf',
-  //   }),
-  //   ProbelmInfo.framMap({
-  //     'ptime': DateTime.parse('2022-11-22 15:45:45'),
-  //     'pno': 1,
-  //     'plike': 123,
-  //     'pstate': 0,
-  //     'upoint': 1122,
-  //     'uname': '킹',
-  //     'sname': '알고',
-  //     'problem_explain':
-  //         'ㄴㅇㄹㄴㄹㄴㄹㄴㅇㄹㄴㄴㅇㄹ\nfdfdfdfsfsdfsfsdfsfsfsfssfsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfsdf',
-  //   }),
-  //   ProbelmInfo.framMap({
-  //     'ptime': DateTime.parse('2022-11-22 15:45:45'),
-  //     'pno': 1,
-  //     'plike': 123,
-  //     'pstate': 0,
-  //     'upoint': 1122,
-  //     'uname': '킹',
-  //     'sname': '알고',
-  //     'problem_explain':
-  //         'ㄴㅇㄹㄴㄹㄴㄹㄴㅇㄹㄴㄴㅇㄹ\nfdfdfdfsfsdfsfsdfsfsfsfssfsddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfsdf',
-  //   }),
-  // ];
-
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double width = screenSize.width;
     double height = screenSize.height;
 
+    Provider.of<loginUser>(context).fetchPoint();
+
     return WillPopScope(
       onWillPop: () async => false,
       child: SafeArea(
         child: Scaffold(
           key: _scaffoldKey,
-          // bottomNavigationBar: BottomNavigationBar(
-          //   elevation: 0,
-          //   backgroundColor: Colors.lightBlue.shade50,
-          //   items: const <BottomNavigationBarItem>[
-          //     BottomNavigationBarItem(
-          //       icon: Icon(Icons.home),
-          //       label: 'HOME',
-          //     ),
-          //     BottomNavigationBarItem(
-          //       icon: Icon(Icons.people),
-          //       label: 'MYPAGE',
-          //     ),
-          //     BottomNavigationBarItem(
-          //       icon: Icon(Icons.settings),
-          //       label: 'SETTING',
-          //     ),
-          //   ],
-          // ),
           body: Column(
             children: [
               Padding(padding: EdgeInsets.only(bottom: width * 0.024)),
@@ -300,6 +217,60 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Padding(padding: EdgeInsets.only(bottom: width * 0.024)),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.amber.shade50,
+                  border: Border.all(
+                    color: Colors.black,
+                  ),
+                ),
+                height: height * 0.1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                        width: width * 0.15,
+                        padding: EdgeInsets.all(width * 0.012),
+                        child: widget_usericon(
+                            upoint:
+                                Provider.of<loginUser>(context, listen: false)
+                                        .upoint ??
+                                    0)),
+                    Column(
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.only(bottom: width * 0.024)),
+                        Text(
+                          "USER NAME : " +
+                              Provider.of<loginUser>(context, listen: false)
+                                  .uname
+                                  .toString(),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(bottom: width * 0.024)),
+                        Text(
+                          "USER POINT : " +
+                              Provider.of<loginUser>(context, listen: false)
+                                  .upoint
+                                  .toString(),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
               Expanded(
                 child: ListView(
                   children: <Widget>[

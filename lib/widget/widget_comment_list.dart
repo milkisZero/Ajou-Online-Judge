@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:provider/provider.dart';
-import 'package:quiz_app_test/model/api_adapter.dart';
+import 'package:quiz_app_test/api_adapter.dart';
 import 'package:quiz_app_test/model/model_comment.dart';
 import 'package:quiz_app_test/model/model_loginUser.dart';
 import 'package:quiz_app_test/model/model_probelm.dart';
